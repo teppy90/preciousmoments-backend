@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const db = mongoose.connection;
 
 //Environment Variables 
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/upsell'
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/pmdatabase'
 
 //connect to Mongo 
 mongoose.connect(mongoURI, ({useNewUrlParser: true, useUnifiedTopology: true }), 

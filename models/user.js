@@ -2,32 +2,34 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
-        username: {
+            name: {
+                type:String,
+                maxlength:50
+            },
+            email: {
+                type:String,
+                trim:true,
+                unique: 1 
+            },
+            password: {
                 type: String,
-                required: true,
-                min: 6,
-                max: 15
-        },
-        password: {
+                minglength: 5
+            },
+            lastname: {
+                type:String,
+                maxlength: 50
+            },
+            role : {
+                type:Number,
+                default: 0 
+            },
+            image: String,
+            token : {
                 type: String,
-                required: true,
-                min: 8,
-                max: 15
-        },
-        email: {
-                type: String,
-                lowercase: true,
-                required: true 
-        },
-        mobile: {
-                type: Number,
-                required: true 
-        },
-        created_date: { type: Date, default: Date.now },
-        wallet: {
-                type: mongoose.Types.Decimal128,
-                default: 4000
-        }
+            },
+            tokenExp :{
+                type: Number
+            }
 });
 
 userSchema.pre('save', function (next) {

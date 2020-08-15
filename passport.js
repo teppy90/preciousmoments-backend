@@ -2,7 +2,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
 const User = require('./models/user');
-const secretKey = process.env.SECRET_KEY || "upsell";
+const secretKey = process.env.SECRET_KEY || "precious_moment";
 
 const cookieExtractor = req => {
     let token = null;
@@ -21,7 +21,7 @@ const cookieExtractor = req => {
 //authorization (protect the edit end point)
 passport.use(new JwtStrategy({
     jwtFromRequest: cookieExtractor,
-    secretOrKey: "superdanny"
+    secretOrKey: "precious_moment"
 }, (payload, done) => {
     User.findById({ _id: payload.sub }, (err, user) => {
         if (err) {
@@ -36,10 +36,12 @@ passport.use(new JwtStrategy({
 
 // authenticated local stragety using username and password 
 
-passport.use(new LocalStrategy((username, password, done) => {
+passport.use(new LocalStrategy({ usernameField: 'email',
+passwordField: 'password'},(username, password, done) => {
+
     console.log('username and password:' + username, password)
 
-    User.findOne({ username }, (err, user) => {
+    User.findOne({ email:username }, (err, user) => {
         if (err) {
             return done(err)
         }
@@ -50,5 +52,4 @@ passport.use(new LocalStrategy((username, password, done) => {
         }
     })
 }));
-
 
