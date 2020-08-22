@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3002;
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser')
 const passport = require('passport')
+require("dotenv").config()
 require('./db');
 
 //middlewares 

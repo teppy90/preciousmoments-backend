@@ -5,7 +5,7 @@ const passport = require('passport');
 const passportConfig = require('../passport');
 const JWT = require('jsonwebtoken');
 
-const secretKey = process.env.SECRET_KEY || "precious";
+const secretKey = process.env.SECRET_KEY 
 
 const signToken = userID => {
     console.log('userID is' + userID)
@@ -42,6 +42,8 @@ router.get(
         return res
             .cookie('access_token', googlesignToken(req.user))
             .redirect("/")
+            //res.status(200).json({ isAuthenticated: true, user: { email, _id, token } });
+
     }
 )
 
