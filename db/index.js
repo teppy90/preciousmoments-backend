@@ -6,7 +6,7 @@ const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/pmdatabas
 
 //connect to Mongo 
 mongoose.connect(mongoURI, ({useNewUrlParser: true, useUnifiedTopology: true }), 
-    () => console.log('MongoDB connection establised:', mongoURI)
+    () => console.log('MongoDB connection established:', mongoURI)
 )
 
 

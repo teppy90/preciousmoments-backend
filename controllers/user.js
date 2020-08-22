@@ -5,14 +5,45 @@ const passport = require('passport');
 const passportConfig = require('../passport');
 const JWT = require('jsonwebtoken');
 
-const secretKey = process.env.SECRET_KEY || "precious_moment" ;
+const secretKey = process.env.SECRET_KEY || "precious";
 
 const signToken = userID => {
+    console.log('userID is' + userID)
     return JWT.sign({
         iss: secretKey,
         sub: userID
     }, secretKey, { expiresIn: "1h" })
 }
+
+
+const googlesignToken = userID => {
+    console.log('userID is' + userID)
+    return JWT.sign({
+        iss: secretKey,
+        sub: userID._id
+    }, secretKey, { expiresIn: "1h" })
+}
+
+//google auth 
+
+router.get(
+    '/google',
+    passport.authenticate('google', {
+        scope: [
+            'profile'
+        ]
+    })
+)
+
+router.get(
+    '/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    (req, res) => {
+        return res
+            .cookie('access_token', googlesignToken(req.user))
+            .redirect("/")
+    }
+)
 
 //find all route
 router.get('/', (req, res) => {
@@ -22,10 +53,10 @@ router.get('/', (req, res) => {
 });
 
 router.get('/authenticated', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const { email, _id} = req.user;
+    const { email, _id } = req.user;
     res.status(200).json({ isAuthenticated: true, user: { email, _id } });
 })
-/
+
 router.get('/logout', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.clearCookie('access_token');
     res.json({ user: { email: "" }, success: true });
