@@ -5,7 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 3002;
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser')
-
+const passport = require('passport')
 require('./db');
 
 //middlewares 
@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: false })); // extended: false - does not 
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }))
-
+app.use(passport.initialize());
 
 //routes
 require('./routes')(app);
