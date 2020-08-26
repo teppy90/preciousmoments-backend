@@ -8,16 +8,17 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 require("dotenv").config()
 require('./db');
+const frontEndUrl = process.env.FRONT_END_URL
 
 //middlewares 
 
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", frontEndUrl);
-//     res.header("Access-Control-Allow-Credentials", "true");
-//     res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS, PATCH");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, x-access-token, Cookie, Content-Type, access_token, Accept");
-//     next();
-// });
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", frontEndUrl);
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS, PATCH");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, x-access-token, Cookie, Content-Type, access_token, Accept");
+    next();
+});
 app.use(express.urlencoded({ extended: false })); // extended: false - does not allow nested objects in query strings
 app.use(express.json());
 app.use(cookieParser());
