@@ -1,13 +1,14 @@
 //Dependencies 
 const express = require('express');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const app = express();
 const port = process.env.PORT || 3002;
 const frontEndUrl = process.env.FRONT_END_URL;
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser')
-const passport = require('passport')
-require("dotenv").config()
+const bodyParser = require('body-parser');
+const passport = require('passport');
+const frontEndUrl = process.env.FRONT_END_URL || 'http://localhost:3000';
+require("dotenv").config();
 require('./db');
 
 const frontEndUrl = process.env.FRONT_END_URL

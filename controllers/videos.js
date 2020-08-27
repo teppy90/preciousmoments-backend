@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Video = require('../models/video.js');
-const User = require('../models/user')
+const User = require('../models/user');
 
 //get all vidoes 
 
@@ -15,10 +15,19 @@ router.get('/', (req, res) => {
 
 });
 
-router.post('/post', (req, res)=>{
-    Video.create(req.body, (err, createdVideo)=>{
-        res.json(createdVideo); //.json() will send proper headers in response so client knows it's json coming back
-    });
+
+router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+    let data = new Object();
+    [data.title, data.description, data.privacy, data.category, data.writer, data.asset_id, data.video_url]
+        = [req.body.title, req.body.description, req.body.privacy, req.body.category, req.user, req.body.cloud.asset_id, req.body.cloud.secure_url]
+    const video = new Video(data);
+    video.save(err => {
+        if (err) {
+            res.status(500).json({ message: { msgBody: "Error has occured", msgError: true } });
+        } else {
+            res.status(200).json({ message: { msgBody: "Successfully created listing", msgError: false } });
+        }
+    })
 });
 
 
@@ -31,7 +40,7 @@ router.delete('/:videoID/delete', (req, res) => {
 
 //create Update route
 router.put('/:videoID/update', (req, res) => {
-    Video.findByIdAndUpdate(req.params.videoID, req.body, {new:true}, (err, updatedVideo) => {
+    Video.findByIdAndUpdate(req.params.videoID, req.body, { new: true }, (err, updatedVideo) => {
         res.json(updatedVideo);
     });
 });
