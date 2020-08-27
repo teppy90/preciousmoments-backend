@@ -4,7 +4,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('./models/user');
-const secretOrKey = process.env.SECRET_KEY
+const secretOrKey = process.env.SECRET_KEY;
 // const consumerKey = process.env.GOOGLE_CONSUMER_KEY || '1027033582659-u2o4asl9og5gkgieq7kbtihn6cn9m965.apps.googleusercontent.com';
 // const consumerSecret = process.env.GOOGLE_CONSUMER_SECRET || 'UESJxhi3j7OaB_NNyBDl-2RL';
 
@@ -53,6 +53,7 @@ passport.use(new GoogleStrategy({
         displayName: profile.displayName,
         firstName: profile.name.givenName,
         lastName: profile.name.familyName,
+        image: profile.photos[0].value
       }
 
       try {
