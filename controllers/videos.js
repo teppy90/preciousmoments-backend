@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Video = require('../models/video.js');
 const User = require('../models/user');
+const passport = require('passport');
 
 //get all vidoes 
 

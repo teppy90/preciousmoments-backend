@@ -3,15 +3,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const port = process.env.PORT || 3002;
-const frontEndUrl = process.env.FRONT_END_URL;
+const frontEndUrl = process.env.FRONT_END_URL || 'http://localhost:3000';
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const frontEndUrl = process.env.FRONT_END_URL || 'http://localhost:3000';
 require("dotenv").config();
 require('./db');
-
-const frontEndUrl = process.env.FRONT_END_URL
 
 //middlewares 
 
@@ -22,6 +19,7 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, x-access-token, Cookie, Content-Type, access_token, Accept");
     next();
 });
+
 app.use(express.urlencoded({ extended: false })); // extended: false - does not allow nested objects in query strings
 app.use(express.json());
 app.use(cookieParser());
