@@ -41,7 +41,7 @@ router.get(
     (req, res) => {
         return res
             .cookie('access_token', googlesignToken(req.user))
-            .redirect("/")
+            .redirect("http://localhost:3002")
             //res.status(200).json({ isAuthenticated: true, user: { email, _id, token } });
 
     }
