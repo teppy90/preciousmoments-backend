@@ -53,7 +53,7 @@ passport.use(new GoogleStrategy({
         displayName: profile.displayName,
         firstName: profile.name.givenName,
         lastName: profile.name.familyName,
-        picture: profile.photos[0].value
+        image: profile.photos[0].value
       }
 
       try {

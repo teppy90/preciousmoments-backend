@@ -4,13 +4,15 @@ const Video = require('../models/video.js');
 const User = require('../models/user')
 
 //get all vidoes 
-router.get('/getvideos', (req, res) => {
+
+router.get('/', (req, res) => {
     Video.find()
-        .populate('writer')
-        .exec((err, videos) => {
-            if(err) return res.status(400)
-            res.status(200).json({success: true, videos})
-        })
+    .populate('writer')
+    .exec((err, videos) => {
+        if(err) return res.status(400).send(err);
+        res.status(200).json({ success: true, videos })
+    })
+
 });
 
 router.post('/post', (req, res)=>{
