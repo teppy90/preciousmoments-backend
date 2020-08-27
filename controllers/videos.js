@@ -4,6 +4,7 @@ const Video = require('../models/video.js');
 const User = require('../models/user')
 
 //get all vidoes 
+
 router.get('/', (req, res) => {
     Video.find()
     .populate('writer')
@@ -11,9 +12,10 @@ router.get('/', (req, res) => {
         if(err) return res.status(400).send(err);
         res.status(200).json({ success: true, videos })
     })
+
 });
 
-router.post('/', (req, res)=>{
+router.post('/post', (req, res)=>{
     Video.create(req.body, (err, createdVideo)=>{
         res.json(createdVideo); //.json() will send proper headers in response so client knows it's json coming back
     });

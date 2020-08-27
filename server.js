@@ -2,12 +2,14 @@
 const express = require('express');
 const mongoose = require('mongoose')
 const app = express();
-const PORT = process.env.PORT || 3002;
+const port = process.env.PORT || 3002;
+const frontEndUrl = process.env.FRONT_END_URL;
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser')
 const passport = require('passport')
 require("dotenv").config()
 require('./db');
+
 const frontEndUrl = process.env.FRONT_END_URL
 
 //middlewares 
@@ -34,8 +36,8 @@ app.get('*', (req, res) => {
 })
 
 
-app.listen(PORT, () => {
-    console.log('I am listening to port:', PORT)
+app.listen(port, () => {
+    console.log('I am listening to port:', port)
 })
 
 

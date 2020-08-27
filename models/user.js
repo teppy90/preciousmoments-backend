@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
         },
         email: {
                 type: String,
+                trim: true
         },
         role: {
                 type: Number,
@@ -34,6 +35,9 @@ const userSchema = new mongoose.Schema({
         },
         tokenExp: {
                 type: Number
+        },
+        picture: {
+                type: String
         }
 });
 

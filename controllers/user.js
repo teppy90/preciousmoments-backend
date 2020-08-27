@@ -4,6 +4,8 @@ const User = require('../models/user')
 const passport = require('passport');
 const passportConfig = require('../passport');
 const JWT = require('jsonwebtoken');
+const frontEndRedirect = process.env.FRONT_END_REDIRECT
+const responseFormatter = require('../formatters/response')
 
 const secretKey = process.env.SECRET_KEY 
 
@@ -55,8 +57,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/authenticated', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const { email, _id } = req.user;
-    res.status(200).json({ isAuthenticated: true, user: { email, _id } });
+    const { email, _id, firstName, lastName, picture } = req.user;
+    res.status(200).json({ isAuthenticated: true, user: {email, _id, firstName, lastName, picture} });
 })
 
 router.get('/logout', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -77,19 +79,23 @@ router.get('/:userID', (req, res) => {
 
 // User register 
 router.post('/signup', (req, res) => {
-    const { email, password, name, lastname } = req.body
+    const { email, password, firstName, lastName } = req.body
+    console.log('reqbody is' + req.body)
     User.findOne({ email }, (err, user) => {
+        console.log('user is'+ user)
         if (err) {
-            res.status(500).json({ message: "Error has occured!" })
+            responseFormatter.formatErrorResponse(res,err, "Error has occured!")
         } else if (user) {
-            res.status(500).json({ message: "Email is already taken!" })
+            responseFormatter.formatErrorResponse(res,err, "Email is already taken!")
         } else {
-            const newUser = new User({ email, password, name, lastname });
+            const newUser = new User({ email, password, firstName, lastName });
+            console.log('new user is' + newUser)
             newUser.save(err => {
+                console.log(err)
                 if (err) {
-                    res.status(500).json({ message: "Username is already taken!" })
+                    responseFormatter.formatErrorResponse(res,err)
                 } else {
-                    res.status(201).json({ message: "Account successfully create" })
+                    res.status(201).json({ message: "Account successfully created" })
                 }
             })
         }
@@ -111,10 +117,10 @@ router.post(
                 if (err) {
                     next(err) //for password? check later
                 }
-                const { _id, email } = req.user; //success case
+                const { _id, email,lastName, firstName, picture } = req.user; //success case
                 const token = signToken(_id);
                 res.cookie('access_token', token, { httpOnly: true });
-                res.status(200).json({ isAuthenticated: true, user: { email, _id, token } });
+                res.status(200).json({ isAuthenticated: true, user: { email, _id, token, firstName, lastName, picture } });
             }
             )
         })(req, res, next)
