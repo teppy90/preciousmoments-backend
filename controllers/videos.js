@@ -47,16 +47,16 @@ router.put('/:videoID/update', (req, res) => {
 });
 
 
-// // find by userID route 
-// router.get('/myVideo/:userID', (req, res) => {
-//     Video.find({ userID:req.params.userID }, (err, foundVideo) => {
-//         if (err) {
-//             res.status(500).json({ message: { msgbody: err, msgError: true } })
-//         } else {
-//             res.json(foundVideo);
-//         }
-//     });
-// });
+// find by userID route 
+router.get('/:userID', (req, res) => {
+    Video.find({ writer:req.params.userID }, (err, foundVideo) => {
+        if (err) {
+            res.status(500).json({ message: { msgbody: err, msgError: true } })
+        } else {
+            res.json(foundVideo);
+        }
+    });
+});
 
 
 
