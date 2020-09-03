@@ -8,19 +8,19 @@ const passport = require('passport');
 
 router.get('/', (req, res) => {
     Video.find()
-    .populate('writer')
-    .exec((err, videos) => {
-        if(err) return res.status(400).send(err);
-        res.status(200).json({ success: true, videos })
-    })
+        .populate('writer')
+        .exec((err, videos) => {
+            if (err) return res.status(400).send(err);
+            res.status(200).json({ success: true, videos })
+        })
 
 });
 
 
 router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
     let data = new Object();
-    [data.title, data.description, data.privacy, data.category, data.writer, data.asset_id, data.video_url]
-        = [req.body.title, req.body.description, req.body.privacy, req.body.category, req.user, req.body.cloud.asset_id, req.body.cloud.secure_url]
+    [data.title, data.description, data.category, data.writer, data.asset_id, data.video_url]
+        = [req.body.title, req.body.description, req.body.category, req.user, req.body.cloud.asset_id, req.body.cloud.secure_url]
     const video = new Video(data);
     video.save(err => {
         if (err) {
@@ -49,7 +49,7 @@ router.put('/:videoID/update', (req, res) => {
 
 // find by userID route 
 router.get('/:userID', (req, res) => {
-    Video.find({ writer:req.params.userID }, (err, foundVideo) => {
+    Video.find({ writer: req.params.userID }, (err, foundVideo) => {
         if (err) {
             res.status(500).json({ message: { msgbody: err, msgError: true } })
         } else {

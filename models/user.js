@@ -25,18 +25,7 @@ const userSchema = new mongoose.Schema({
                 type: String,
                 trim: true
         },
-        role: {
-                type: Number,
-                default: 0
-        },
-        image: String,
-        token: {
-                type: String,
-        },
-        tokenExp: {
-                type: Number
-        },
-        picture: {
+        image: {
                 type: String
         }
 });
