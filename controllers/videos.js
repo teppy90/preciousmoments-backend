@@ -3,6 +3,7 @@ const router = express.Router();
 const Video = require('../models/video.js');
 const User = require('../models/user');
 const passport = require('passport');
+const responseFormatter = require('../formatters/response')
 
 //get all vidoes 
 
@@ -62,25 +63,25 @@ router.put('/:videoID/update', (req, res) => {
 
 
 //find by id route 
-// router.get('/:videoID', (req, res) => {
-//     Video.findById(req.params.videoID, (err, foundVideo) => {
-//         if (err) {
-//             res.status(500).json({ message: { msgbody: err, msgError: true } })
-//         } else {
-//             console.log(foundVideo);
-//             User.findById(foundVideo.userID, (err, foundUser) => {
-//                 if (err) {
-//                     res.status(500).json({ message: { msgbody: err, msgError: true } })
-//                 } else {
-//                     res.json({
-//                         ...foundVideo.toObject(),
-//                         email: foundUser.email
-//                     });
-//                 }
-//             });
-//         }
-//     });
-// });
+router.get('/:videoID', (req, res) => {
+    Video.findById(req.params.videoID, (err, foundVideo) => {
+        if (err) {
+            res.status(500).json({ message: { msgbody: err, msgError: true } })
+        } else {
+            console.log(foundVideo);
+            User.findById(foundVideo.userID, (err, foundUser) => {
+                if (err) {
+                    res.status(500).json({ message: { msgbody: err, msgError: true } })
+                } else {
+                    res.json({
+                        ...foundVideo.toObject(),
+                        email: foundUser.email
+                    });
+                }
+            });
+        }
+    });
+});
 
 
 
