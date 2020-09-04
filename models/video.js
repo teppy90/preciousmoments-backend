@@ -13,7 +13,7 @@ const videoSchema = mongoose.Schema({
     description: {
         type: String,
     },
-    catogory: {
+    category: {
         type: String,
     },
     asset_id: {

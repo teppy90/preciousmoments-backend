@@ -49,6 +49,8 @@ router.delete('/:videoID/delete', (req, res) => {
 //create Update route
 router.put('/:videoID/update', (req, res) => {
     Video.findByIdAndUpdate(req.params.videoID, req.body, { new: true }, (err, updatedVideo) => {
+        console.log(req.body);
+        console.log(updatedVideo);
         res.json(updatedVideo);
     });
 });
