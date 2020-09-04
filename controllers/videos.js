@@ -35,8 +35,14 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
 
 //create Delete route 
 router.delete('/:videoID/delete', (req, res) => {
-    Video.findByIdAndRemove(req.params.videoID, (err, deletedVideo) => {
-        res.json(deletedVideo);
+    Video.findByIdAndDelete(req.params.videoID, (err, deletedVideo) => {
+        if (err) {
+            res.status(500).json({ message: { msgBody: "Error has occured", msgError: true } });
+        } else if (deletedVideo === null) {
+            res.status(404).json({ message: { msgBody: "No video found and deleted", msgError: true } });
+        } else {
+            res.status(200).json(deletedVideo);
+        }
     });
 });
 
@@ -54,9 +60,9 @@ router.post("/uploadVideo", (req, res) => {
     const video = new Video(req.body)
 
     video.save((err, video) => {
-        if(err) return res.status(400).json({ success: false, err })
+        if (err) return res.status(400).json({ success: false, err })
         return res.status(200).json({
-            success: true 
+            success: true
         })
     })
 
@@ -65,26 +71,26 @@ router.post("/uploadVideo", (req, res) => {
 //find video by id (for playvideopage)
 
 router.post("/getVideo", (req, res) => {
-    Video.findOne({ "_id" : req.body.videoId })
-    .populate('writer')
-    .exec((err, video) => {
-        if(err) return res.status(400).send(err);
-        res.status(200).json({ success: true, video })
-    })
+    Video.findOne({ "_id": req.body.videoId })
+        .populate('writer')
+        .exec((err, video) => {
+            if (err) return res.status(400).send(err);
+            res.status(200).json({ success: true, video })
+        })
 });
 
 
 // find by userID route 
 
-    router.get('/:userID', (req, res) => {
-            Video.find({ writer:req.params.userID }, (err, foundVideo) => {
-                if (err) {
-                    res.status(500).json({ message: { msgbody: err, msgError: true } })
-                } else {
-                    res.json(foundVideo);
-                }
-            });
-        });
+router.get('/:userID', (req, res) => {
+    Video.find({ writer: req.params.userID }, (err, foundVideo) => {
+        if (err) {
+            res.status(500).json({ message: { msgbody: err, msgError: true } })
+        } else {
+            res.json(foundVideo);
+        }
+    });
+});
 
 // // find by userID route 
 // router.get('/myVideo/:userID', (req, res) => {
